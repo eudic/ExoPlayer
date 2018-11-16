@@ -69,7 +69,7 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
       Pattern.compile("^bytes (\\d+)-(\\d+)/(\\d+)$");
   private static final AtomicReference<byte[]> skipBufferReference = new AtomicReference<>();
 
-  private final boolean allowCrossProtocolRedirects;
+  private final boolean allowCrossProtocolRedirects = true;
   private final int connectTimeoutMillis;
   private final int readTimeoutMillis;
   private final String userAgent;
@@ -154,7 +154,7 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     this.requestProperties = new RequestProperties();
     this.connectTimeoutMillis = connectTimeoutMillis;
     this.readTimeoutMillis = readTimeoutMillis;
-    this.allowCrossProtocolRedirects = allowCrossProtocolRedirects;
+    //this.allowCrossProtocolRedirects = allowCrossProtocolRedirects;
     this.defaultRequestProperties = defaultRequestProperties;
   }
 
