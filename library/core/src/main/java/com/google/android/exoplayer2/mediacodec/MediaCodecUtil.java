@@ -166,6 +166,15 @@ public final class MediaCodecUtil {
           getDecoderInfosInternal(eac3Key, mediaCodecList, mimeType);
       decoderInfos.addAll(eac3DecoderInfos);
     }
+
+    // try audio/mpeg-L2
+    if (decoderInfos.isEmpty() && MimeTypes.AUDIO_MPEG.equals(mimeType)) {
+      decoderInfos = getDecoderInfosInternal(new CodecKey(MimeTypes.AUDIO_MPEG_L2,key.secure), mediaCodecList,mimeType);
+    }
+    if (decoderInfos.isEmpty()) {
+      throw new DecoderQueryException(new IllegalStateException("decoder not found"));
+    }
+
     applyWorkarounds(mimeType, decoderInfos);
     List<MediaCodecInfo> unmodifiableDecoderInfos = Collections.unmodifiableList(decoderInfos);
     decoderInfosCache.put(key, unmodifiableDecoderInfos);
@@ -393,6 +402,11 @@ public final class MediaCodecUtil {
     // MTK E-AC3 decoder doesn't support decoding JOC streams in 2-D. See [Internal: b/69400041].
     if (MimeTypes.AUDIO_E_AC3_JOC.equals(requestedMimeType)
         && "OMX.MTK.AUDIO.DECODER.DSPAC3".equals(name)) {
+      return false;
+    }
+
+    //vivo
+    if (Util.SDK_INT == 22 && "vivo".equals(Util.MANUFACTURER) && name.equals("OMX.MTK.AUDIO.DECODER.MP3")) {
       return false;
     }
 
