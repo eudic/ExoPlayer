@@ -327,6 +327,12 @@ public abstract class MappingTrackSelector extends TrackSelector {
     currentMappedTrackInfo = (MappedTrackInfo) info;
   }
 
+  //eusoft modify
+  //支持配音
+  protected int findMyRender(RendererCapabilities[] rendererCapabilities, TrackGroup group, int[] rendererTrackGroupCounts) throws ExoPlaybackException {
+    return findRenderer(rendererCapabilities, group);
+  }
+
   @Override
   public final TrackSelectorResult selectTracks(RendererCapabilities[] rendererCapabilities,
       TrackGroupArray trackGroups) throws ExoPlaybackException {
@@ -350,7 +356,10 @@ public abstract class MappingTrackSelector extends TrackSelector {
     for (int groupIndex = 0; groupIndex < trackGroups.length; groupIndex++) {
       TrackGroup group = trackGroups.get(groupIndex);
       // Associate the group to a preferred renderer.
-      int rendererIndex = findRenderer(rendererCapabilities, group);
+
+      //eusoft modify
+      //int rendererIndex = findRenderer(rendererCapabilities, group);
+      int rendererIndex = findMyRender(rendererCapabilities, group, rendererTrackGroupCounts);
       // Evaluate the support that the renderer provides for each track in the group.
       int[] rendererFormatSupport = rendererIndex == rendererCapabilities.length
           ? new int[group.length] : getFormatSupport(rendererCapabilities[rendererIndex], group);

@@ -1108,7 +1108,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
   private static final int[] NO_TRACKS = new int[0];
   private static final int WITHIN_RENDERER_CAPABILITIES_BONUS = 1000;
 
-  private final TrackSelection.Factory adaptiveTrackSelectionFactory;
+  protected final TrackSelection.Factory adaptiveTrackSelectionFactory;
   private final AtomicReference<Parameters> parametersReference;
 
   /** Constructs an instance that uses a default factory to create adaptive track selections. */

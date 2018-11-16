@@ -451,6 +451,21 @@ public class SimpleExoPlayer extends BasePlayer
     setAuxEffectInfo(new AuxEffectInfo(AuxEffectInfo.NO_AUX_EFFECT_ID, /* sendLevel= */ 0f));
   }
 
+  //eusoft modify
+  //支持配音
+  public void setVolume(float audioVolume, int audioIndex) {
+    int index = 0;
+    for (Renderer renderer : renderers) {
+      if (renderer.getTrackType() == C.TRACK_TYPE_AUDIO) {
+        if (audioIndex == index) {
+          player.sendMessages(new ExoPlayerMessage(renderer, C.MSG_SET_VOLUME, audioVolume));
+          return;
+        }
+        index++;
+      }
+    }
+  }
+
   @Override
   public void setVolume(float audioVolume) {
     verifyApplicationThread();
