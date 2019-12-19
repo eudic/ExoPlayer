@@ -63,7 +63,12 @@ public final class CacheUtil {
    * @param uri Uri of a content which the requested key is for.
    */
   public static String generateKey(Uri uri) {
-    return uri.toString();
+      String url = uri.toString();
+      int query = url.indexOf("?");
+      if (query > 0) {
+          url = url.substring(0, query);
+      }
+      return url;
   }
 
   /**
