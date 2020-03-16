@@ -16,6 +16,8 @@
 package com.google.android.exoplayer2.upstream.cache;
 
 import android.net.Uri;
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -64,6 +66,11 @@ public final class CacheUtil {
    */
   public static String generateKey(Uri uri) {
       String url = uri.toString();
+      // https://api.frdic.com/api/v2/speech/speakweb?langid=fr&txt=QYNw6dh&checkParam=1
+      // 有些资源需要使用全部参数做为缓存key
+      if (!TextUtils.isEmpty(uri.getQueryParameter("checkParam"))) {
+          return url;
+      }
       int query = url.indexOf("?");
       if (query > 0) {
           url = url.substring(0, query);
